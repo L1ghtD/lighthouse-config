@@ -1,0 +1,17 @@
+approve:
+- lgtm_acts_as_approve: false
+  repos:
+  - L1ghtD/lighthouse-config
+  require_self_approval: true
+config_updater:
+  gzip: false
+  maps:
+    config.yaml:
+      name: config
+    plugins.yaml:
+      name: plugins  
+plugins:
+  L1ghtD/lighthouse-config:
+  - config-updater
+  - approve
+  - lgtm 
