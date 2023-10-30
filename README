@@ -9,6 +9,7 @@ repo_name=lighthouse-config
 webhook_url=https://lighthouse.safeuemtest.ca/hook
 webhook_secret=67499e4fe69a124bf7116992fa946c84080537f1
 GITHUB_TOKEN=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
+sample_repo_name=lighthouse-tekton-demo
 
 ## url
 https://github.com/jenkins-x/lighthouse/blob/main/docs/install_lighthouse_with_tekton.md
@@ -55,3 +56,15 @@ EOF
 gh repo create lighthouse-tekton-demo --public -y
 gh api -X PUT repos/L1ghtD/lighthouse-tekton-demo/collaborators/jfduuu
 git push origin master
+
+bot_user=<github-username-of-bot-user>
+GITHUB_TOKEN=<oauthtoken-bot-user>
+
+git commit -a -m "feat: adding bot_user/$sample_repo_name to Lighhouse config"
+gh pr create --title "adding bot_user/$sample_repo_name to Lighhouse config" --body ""
+gh pr view --web
+
+### update lighthouse config
+git commit -a -m "feat: adding bot_user/lighthouse-tekton-demo to Lighhouse config"
+gh pr create --title "adding bot_user/lighthouse-tekton-demo to Lighhouse config" --body ""
+gh pr view --web
