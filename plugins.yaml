@@ -2,6 +2,7 @@ approve:
 - lgtm_acts_as_approve: false
   repos:
   - L1ghtD/lighthouse-config
+  - L1ghtD/lighthouse-tekton-demo
   require_self_approval: true
 config_updater:
   gzip: false
@@ -9,9 +10,18 @@ config_updater:
     config.yaml:
       name: config
     plugins.yaml:
-      name: plugins  
+      name: plugins
+triggers:
+- repos:
+  - L1ghtD/lighthouse-tekton-demo
+  ignore_ok_to_test: false
+  elide_skipped_contexts: false
 plugins:
   L1ghtD/lighthouse-config:
   - config-updater
   - approve
-  - lgtm 
+  - lgtm  
+  L1ghtD/lighthouse-tekton-demo:
+  - approve
+  - lgtm
+  - trigger

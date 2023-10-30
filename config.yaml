@@ -1,8 +1,30 @@
 pod_namespace: lighthouse
 prowjob_namespace: lighthouse
+
+postsubmits:
+  L1ghtD/lighthouse-tekton-demo:
+    - agent: tekton-pipeline
+      branches:
+        - master
+      context: lighthouse-tekton-demo
+      name: lighthouse-tekton-demo
+      pipeline_run_spec:
+        # serviceAccountName: app-builder
+        pipelineRef:
+          name: clone-read
+        workspaces:
+        - name: shared-data
+          persistentVolumeClaim:
+            claimName: tekton-data
+          subPath: test-sub-data
+        params:
+        - name: repo-url
+          value: https://github.com/L1ghtD/lighthouse-tekton-demo.git
+
 tide:
   queries:
   - labels:
     - approved
     repos:
     - L1ghtD/lighthouse-config
+    - L1ghtD/lighthouse-tekton-demo
