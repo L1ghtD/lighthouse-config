@@ -1,0 +1,57 @@
+# github-app
+## private-key
+l1ght-ci-bot.private_key
+  
+## args
+install_namespace=lighthouse
+bot_user=L1ghtD
+repo_name=lighthouse-config
+webhook_url=https://lighthouse.safeuemtest.ca/hook
+webhook_secret=67499e4fe69a124bf7116992fa946c84080537f1
+GITHUB_TOKEN=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
+
+## url
+https://github.com/jenkins-x/lighthouse/blob/main/docs/install_lighthouse_with_tekton.md
+
+## generate hmac-token
+openssl rand -hex 20 > ./hmac-token
+
+
+gh repo create lighthouse-config --public -y
+gh api -X PUT repos/L1ghtD/lighthouse-config/collaborators/jfduuu
+git push origin master
+
+
+kubectl create namespace lighthouse
+kubectl create cm config -n lighthouse --from-file=config.yaml
+kubectl create cm plugins -n lighthouse --from-file=plugins.yaml
+
+helm repo add lighthouse https://jenkins-x-charts.github.io/repo
+helm repo update
+
+helm install lighthouse lighthouse/lighthouse -n lighthouse -f lhValues.yaml
+
+####
+GITHUB_TOKEN=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
+
+
+cat <<EOF | gh api -X POST repos/L1ghtD/lighthouse-config/hooks --input -
+{
+  "name": "web",
+  "active": true,
+  "events": [
+    "*"
+  ],
+  "config": {
+    "url": "https://lighthouse.safeuemtest.ca/hook",
+    "content_type": "json",
+    "insecure_ssl": "0",
+    "secret": "67499e4fe69a124bf7116992fa946c84080537f1"
+  }
+}
+EOF
+
+
+gh repo create lighthouse-tekton-demo --public -y
+gh api -X PUT repos/L1ghtD/lighthouse-tekton-demo/collaborators/jfduuu
+git push origin master
